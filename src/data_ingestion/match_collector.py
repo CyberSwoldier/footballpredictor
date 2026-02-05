@@ -6,25 +6,19 @@ class MatchCollector:
         self.flash = FlashscoreScraper()
         self.sofa = SofascoreScraper()
 
-    def collect_match_stats(self, flash_url: str, sofa_url: str) -> dict:
-        """
-        flash_url: caminho relativo do Flashscore
-        sofa_url: caminho relativo do Sofascore
-        """
-
-        # 1) Flashscore primeiro
+    def collect_stats(self, flash_url: str, sofa_url: str | None = None):
+        # Flashscore primeiro
         try:
             stats = self.flash.get_match_stats(flash_url)
-        except Exception:
+        except:
             stats = {}
 
-        # 2) Sofascore como fallback
-        try:
-            sofa_stats = self.sofa.get_match_stats(sofa_url)
-        except Exception:
-            sofa_stats = {}
+        # Sofascore fallback
+        if sofa_url:
+            try:
+                sofa_stats = self.sofa.get_match_stats(sofa_url)
+                stats.update(sofa_stats)
+            except:
+                pass
 
-        # 3) Combinar (Sofascore sobrescreve Flashscore)
-        combined = {**stats, **sofa_stats}
-
-        return combined
+        return stats
