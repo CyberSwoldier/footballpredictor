@@ -1,3 +1,10 @@
+import sys
+import os
+
+# Adiciona a raiz do projeto ao PYTHONPATH
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(ROOT_DIR)
+
 import streamlit as st
 import pandas as pd
 from pathlib import Path
