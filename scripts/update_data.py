@@ -1,15 +1,28 @@
-import logging
+from src.data_ingestion.match_collector import MatchCollector
+import pandas as pd
 
-from src.data_ingestion.update_pipeline import update_data_for_league
+def update_data():
+    collector = MatchCollector()
 
+    # Aqui tens de fornecer a lista de jogos:
+    # flash_url e sofa_url para cada jogo
+    # (posso automatizar isto também)
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
-)
+    matches = [
+        {
+            "match_id": "porto-benfica",
+            "flash_url": "/jogo/xxxxxx/#/resumo-de-jogo/estatisticas-de-jogo/0",
+            "sofa_url": "/porto-benfica/xxxxxx"
+        }
+    ]
 
+    rows = []
+    for m in matches:
+        stats = collector.collect_match_stats(m["flash_url"], m["sofa_url"])
+        rows.append({"match_id": m["match_id"], **stats})
+
+    df = pd.DataFrame(rows)
+    df.to_csv("data/raw/match_stats.csv", index=False)
 
 if __name__ == "__main__":
-    # TODO: substituir pelo ID real da Primeira Liga no Sofascore
-    PRIMEIRA_LIGA_ID = 1234
-    update_data_for_league(PRIMEIRA_LIGA_ID)
+    update_data()
