@@ -29,8 +29,14 @@ class FlashscoreScraper:
             if category and home and away:
                 key = category.text.strip().lower().replace(" ", "_")
                 stats[key] = {
-                    "home": home.text.strip(),
-                    "away": away.text.strip()
+                    "home": self._safe_int(home.text),
+                    "away": self._safe_int(away.text)
                 }
 
         return stats
+
+    def _safe_int(self, value):
+        try:
+            return int(value)
+        except:
+            return None
