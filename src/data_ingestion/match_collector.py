@@ -12,19 +12,19 @@ class MatchCollector:
         sofa_url: caminho relativo do Sofascore
         """
 
-        # 1) Tenta Flashscore primeiro
+        # 1) Flashscore primeiro
         try:
             stats = self.flash.get_match_stats(flash_url)
         except Exception:
             stats = {}
 
-        # 2) Tenta Sofascore como fallback
+        # 2) Sofascore como fallback
         try:
             sofa_stats = self.sofa.get_match_stats(sofa_url)
         except Exception:
             sofa_stats = {}
 
-        # 3) Combina (Sofascore sobrescreve Flashscore)
+        # 3) Combinar (Sofascore sobrescreve Flashscore)
         combined = {**stats, **sofa_stats}
 
         return combined
