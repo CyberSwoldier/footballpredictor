@@ -6,4 +6,3 @@ requests
 python-dateutil
 plotly
 joblib
-src
