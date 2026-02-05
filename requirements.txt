@@ -6,4 +6,5 @@ requests
 python-dateutil
 plotly
 joblib
-BeautifulSoup
+beautifulsoup4
+
