@@ -11,10 +11,6 @@ class SofascoreScraper:
     }
 
     def get_match_stats(self, match_url: str) -> dict:
-        """
-        Extrai estatísticas do JSON interno __NEXT_DATA__ do Sofascore.
-        match_url é o caminho relativo, ex: '/porto-benfica/xxxxxx'
-        """
         url = self.BASE_URL + match_url
         resp = requests.get(url, headers=self.headers)
         resp.raise_for_status()
